@@ -11,6 +11,9 @@ module.exports = {
 
         const embed = new Discord.MessageEmbed()
             .setAuthor(`Информация о ${user.username}!`, user.displayAvatarURL())
+            .setTimestamp()
+            .setColor("#fff")
+            .setFooter(`Message author: ${message.author.username} • Server: ${message.guild.name}`)
             .addFields({
                 name: 'Тэг пользователя',
                 value: user.tag,
@@ -35,8 +38,7 @@ module.exports = {
                     name: 'Количетво ролей:',
                     value: member.roles.cache.size - 1,
                 }
-            )
-            .setFooter(`Author: ${message.author.username} • Server: ${message.guild.name}`);
+            );
 
         channel.send(embed);
     },
