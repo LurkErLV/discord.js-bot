@@ -25,7 +25,7 @@ module.exports = {
                 },
                 {
                     name: 'Присоединился к серверу:',
-                    value: new Date(member.joinedTimestamp).toLocaleDateString('en-GB'),
+                    value: new Date(member.joinedTimestamp).toLocaleDateString('en-G'),
                 },
                 {
                     name: 'Присоединился к Дискорду:',
