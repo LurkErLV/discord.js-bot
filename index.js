@@ -7,7 +7,7 @@ const prefix = '!';
 
 
 client.once('ready', () => {
-    console.log('Ready!');
+    console.log('Bot is ready!');
     console.log(`Loaded ${commandFiles.length} commands!`)
 });
 
