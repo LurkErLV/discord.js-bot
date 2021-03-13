@@ -25,17 +25,18 @@ module.exports = {
                 },
                 {
                     name: 'Присоединился к серверу:',
-                    value: new Date(member.joinedTimestamp).toLocaleDateString(),
+                    value: new Date(member.joinedTimestamp).toLocaleDateString('en-GB'),
                 },
                 {
                     name: 'Присоединился к Дискорду:',
-                    value: new Date(user.createdTimestamp).toLocaleDateString(),
+                    value: new Date(user.createdTimestamp).toLocaleDateString('en-GB'),
                 },
                 {
                     name: 'Количетво ролей:',
                     value: member.roles.cache.size - 1,
                 }
-            );
+            )
+            .setFooter(`Author: ${message.author.username} • Server: ${message.guild.name}`);
 
         channel.send(embed);
     },
