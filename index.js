@@ -35,4 +35,4 @@ client.on('message', message => {
 
 });
 
-client.login(process.env.DJS_TOKEN);
+client.login('token');
