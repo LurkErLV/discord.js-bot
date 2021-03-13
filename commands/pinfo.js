@@ -2,7 +2,7 @@ const Discord = require("discord.js");
 
 module.exports = {
     name: "pinfo",
-    description: "Info about person",
+    description: "Person information",
     async execute(message, args) {
         const { guild, channel } = message;
 
