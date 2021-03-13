@@ -28,11 +28,11 @@ module.exports = {
                 },
                 {
                     name: 'Присоединился к серверу:',
-                    value: new Date(member.joinedTimestamp).toLocaleDateString('en-GB'),
+                    value: new Date(member.joinedTimestamp).toLocaleDateString('lv-LV'),
                 },
                 {
                     name: 'Присоединился к Дискорду:',
-                    value: new Date(user.createdTimestamp).toLocaleDateString('en-GB'),
+                    value: new Date(user.createdTimestamp).toLocaleDateString('lv-LV'),
                 },
                 {
                     name: 'Количетво ролей:',
