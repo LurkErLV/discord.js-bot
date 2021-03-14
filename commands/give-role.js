@@ -4,7 +4,7 @@ module.exports = {
     execute(message, args) {
         if (
             message.member.hasPermission('ADMINISTRATOR') ||
-            message.member.hasPermission('KICK_MEMBERS')
+            message.member.hasPermission('MANAGE_ROLES')
         ) {
         const targetUser = message.mentions.users.first();
         if (!targetUser) {
