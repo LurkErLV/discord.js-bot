@@ -2,6 +2,10 @@ module.exports = {
     name: "giverole",
     description: "Giving roles command",
     execute(message, args) {
+        if (
+            message.member.hasPermission('ADMINISTRATOR') ||
+            message.member.hasPermission('KICK_MEMBERS')
+        ) {
         const targetUser = message.mentions.users.first();
         if (!targetUser) {
             message.channel.send("Укажите пользователя, чтобы выдать роль!");
@@ -24,5 +28,8 @@ module.exports = {
             member.roles.add(role);
             message.channel.send(`Пользователь <@${message.author.id}> выдал роль "${roleName}" пользователю <@${targetUser.id}>!`);
         }
+    } else {
+        message.channel.send(`<@${message.author.id}>, у вас не хватает прав!`);
+    }
     },
 };
