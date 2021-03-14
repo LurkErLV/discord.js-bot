@@ -1,5 +1,3 @@
-const Discord = require("discord.js");
-
 module.exports = {
     name: "coinflip",
     description: "Coinflip",
@@ -16,7 +14,7 @@ module.exports = {
             .setColor("#fff")
             .setTimestamp()
             .setDescription(`В игре орёл и решка, выпала ${result}!`)
-            .setFooter(`Author: ${message.author.username} • Server: ${message.guild.name}`);
+            .setFooter(`Message author: ${message.author.username} • Server: ${message.guild.name}`);
 
         message.channel.send(embed);
     },
