@@ -8,7 +8,9 @@ const prefix = '!';
 
 client.once('ready', () => {
     console.log('Bot is ready!');
-    console.log(`Loaded ${commandFiles.length} commands!`)
+    console.log(`Loaded ${commandFiles.length} commands!`);
+    client.user.setPresence({ activity: { name: 'бога!', type: 'PLAYING' }, status: 'online' }); // Bot Rich Presence options
+
 });
 
 client.on('message', message => {
@@ -28,7 +30,7 @@ client.on('message', message => {
 
     if (!client.commands.has(command)) return;
     try {
-        client.commands.get(command).execute (message, args);
+        client.commands.get(command).execute(message, args);
     } catch {
         message.reply('Здесь возникла проблема с командой, напишите разработчику о проблеме!');
     }
