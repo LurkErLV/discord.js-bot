@@ -1,5 +1,3 @@
-const Discord = require("discord.js");
-
 module.exports = {
     name: "serverinfo",
     description: "Server Info",
@@ -16,7 +14,7 @@ module.exports = {
                 { name: 'Boost Count:', value: `${message.guild.premiumSubscriptionCount}`, inline: false }
             )
             .setTimestamp()
-            .setFooter(`Author: ${message.author.username} • Server: ${message.guild.name}`);
+            .setFooter(`Message author: ${message.author.username} • Server: ${message.guild.name}`);
 
         message.channel.send(embed);
     },

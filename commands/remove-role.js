@@ -26,7 +26,7 @@ module.exports = {
         } else {
             const member = guild.members.cache.get(targetUser.id);
             member.roles.remove(role);
-            message.channel.send(`Пользователь <@${message.author.id}> забрад роль "${roleName}" у пользователя <@${targetUser.id}>!`);
+            message.channel.send(`Пользователь <@${message.author.id}> забрал роль "${roleName}" у пользователя <@${targetUser.id}>!`);
         }
     } else {
         message.channel.send(`<@message.author.id>, у вас не хватает прав!`);

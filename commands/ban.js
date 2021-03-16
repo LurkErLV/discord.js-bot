@@ -8,7 +8,7 @@ module.exports = {
 
         if (
             message.member.hasPermission('ADMINISTRATOR') ||
-            message.member.hasPermission('KICK_MEMBERS')
+            message.member.hasPermission('BAN_MEMBERS')
         ) {
             const target = message.mentions.users.first();
             if (target) {
