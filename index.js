@@ -36,18 +36,35 @@ client.on(`message`, (message) => {
         }
         if (row === undefined) {
             let insertdata = db.prepare(`INSERT INTO users VALUES(?,?,?,?)`);
-            insertdata.run(userid, username, "0", "0");
+            insertdata.run(userid, username, "0", "1");
             insertdata.finalize();
             db.close();
             return;
         } else {
-            db.run(`UPDATE users SET xp = xp + 1 WHERE userid = ?`, [message.author.id]), function (err) {
+            db.run(`UPDATE users SET xp = xp + 1.5 WHERE userid = ?`, [message.author.id]), function (err) {
                 if (err) {
                       console.log(err);
                 }
             }
         }
     });
+});
+client.on(`message`, (message) => {
+    if (message.content.startsWith('!')) return;
+    if (message.author.bot) return;
+    let db = new sqlite.Database('./database.db', sqlite.OPEN_READWRITE);
+    db.get(`SELECT * FROM users WHERE userid = ?`, [message.author.id], (err, row) => {
+        const nxtLvl = 500 * (Math.pow(2, row.lvl) - 1);
+        if (row.xp >= nxtLvl) {
+            db.run(`UPDATE users SET lvl = lvl + 1 WHERE userid = ?`, [message.author.id]), function (err) {
+                console.log(err);
+            }
+            db.run(`UPDATE users SET xp = xp - ${nxtLvl} WHERE userid = ?`, [message.author.id]), function (err) {
+                console.log(err);
+            }
+            message.channel.send(`<@${message.author.id}>, вы повысили свой уровень до '${row.lvl + 1}'!`);
+        }
+    })
 });
 
 for (const file of commandFiles) {
