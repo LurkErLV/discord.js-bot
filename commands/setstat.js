@@ -1,5 +1,5 @@
 const sqlite = require('sqlite3').verbose();
-let db = new sqlite.Database('./database.db', sqlite.OPEN_READWRITE);
+let db = require('../utils/db.js');
 
 module.exports = {
     name: 'setstat',

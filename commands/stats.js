@@ -1,4 +1,3 @@
-const sqlite = require("sqlite3").verbose();
 const Discord = require("discord.js");
 
 module.exports = {
@@ -11,6 +10,7 @@ module.exports = {
       if (err) {
         console.log(err);
       }
+      const nxtLvl = 500 * (Math.pow(2, rows[0].lvl) - 1);
       const embed = new Discord.MessageEmbed()
         .setTitle(`Информация о ${message.author.username}`)
         .setTimestamp()
@@ -24,9 +24,13 @@ module.exports = {
           {
             name: 'Опыт',
             value: rows[0].xp,
+          },
+          {
+            name: 'Нужно для повышения',
+            value: nxtLvl
           }
         )
-        message.channel.send(embed);
+      message.channel.send(embed);
     });
   },
 };
