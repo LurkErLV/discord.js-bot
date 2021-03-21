@@ -2,7 +2,7 @@ const sqlite = require("sqlite3").verbose();
 const Discord = require("discord.js");
 
 module.exports = {
-  name: "status",
+  name: "stats",
   description: "XP and LVL System status command.",
   execute(message, args) {
     let db = require("../utils/db.js");
