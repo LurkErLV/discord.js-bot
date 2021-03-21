@@ -27,7 +27,9 @@ client.on(`message`, (message) => {
     let username = message.author.tag;
     if (message.author.bot) return;
     let db = new sqlite.Database('./database.db', sqlite.OPEN_READWRITE);
-
+    if (message.content.startsWith('!')) return;
+    if (message.author.bot) return;
+    if (message.content.startsWith(':') && message.content.endsWith(':')) return;
     let query = `SELECT * FROM users WHERE userid = ?`;
     db.get(query, [userid], (err, row) => {
         if (err) {
@@ -40,26 +42,15 @@ client.on(`message`, (message) => {
             insertdata.finalize();
             db.close();
             return;
+        } else {
+            db.run(`UPDATE users SET xp = xp + 1 WHERE userid = ?`, [message.author.id]), function (err) {
+                if (err) {
+                      console.log(err);
+                }
+            }
         }
     });
-    //console.log(`${message.author.tag} in #${message.channel.name} sent: ${message.content}`);
 });
-
-client.on('message', message => {
-    let db = new sqlite.Database('./database.db', sqlite.OPEN_READWRITE);
-    db.all(`SELECT * FROM users WHERE userid = ${message.author.id}`, [], (err, rows) => {
-        if (err) {
-            console.log(err);
-        }
-        var XP = rows[0].xp + 1;
-    });
-    db.run(`UPDATE users SET xp = ${XP} WHERE userid = ${message.author.id}`), function (err) {
-        if (err) {
-            console.log(err);
-        }
-    }
-    db.close();
-})
 
 for (const file of commandFiles) {
     const command = require(`./commands/${file}`);
