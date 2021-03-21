@@ -1,4 +1,5 @@
 const sqlite = require("sqlite3").verbose();
+const Discord = require("discord.js");
 
 module.exports = {
   name: "status",
@@ -10,7 +11,22 @@ module.exports = {
       if (err) {
         console.log(err);
       }
-      message.channel.send(`Your XP = '${rows[0].xp}', your LVL = '${rows[0].lvl}'`);
+      const embed = new Discord.MessageEmbed()
+        .setTitle(`Информация о ${message.author.username}`)
+        .setTimestamp()
+        .setColor('#fff')
+        .setFooter(`Message author: ${message.author.username} • Server: ${message.guild.name}`)
+        .addFields(
+          {
+            name: 'Уровень',
+            value: rows[0].lvl,
+          },
+          {
+            name: 'Опыт',
+            value: rows[0].xp,
+          }
+        )
+        message.channel.send(embed);
     });
   },
 };

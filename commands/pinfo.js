@@ -14,10 +14,11 @@ module.exports = {
             .setTimestamp()
             .setColor("#fff")
             .setFooter(`Message author: ${message.author.username} • Server: ${message.guild.name}`)
-            .addFields({
-                name: 'Тэг пользователя',
-                value: user.tag,
-            },
+            .addFields(
+                {
+                    name: 'Тэг пользователя',
+                    value: user.tag,
+                },
                 {
                     name: 'Пользователь бот?',
                     value: user.bot ? "Да" : "Нет",

@@ -6,7 +6,6 @@ const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('
 const prefix = '!';
 const sqlite = require('sqlite3').verbose();
 
-
 client.on('ready', () => {
     console.log('Bot is ready!');
     console.log(`Loaded ${commandFiles.length} commands!`);
@@ -18,7 +17,7 @@ client.on('ready', () => {
         xp INTEGER NOT NULL,
         lvl INTEGER NOT NULL
         )`);
-    console.log('Database is connected!')
+        console.log('Database is connected!')
 });
 
 client.on(`message`, (message) => {
@@ -29,7 +28,6 @@ client.on(`message`, (message) => {
     let db = new sqlite.Database('./database.db', sqlite.OPEN_READWRITE);
     if (message.content.startsWith('!')) return;
     if (message.author.bot) return;
-    if (message.content.startsWith(':') && message.content.endsWith(':')) return;
     let query = `SELECT * FROM users WHERE userid = ?`;
     db.get(query, [userid], (err, row) => {
         if (err) {
