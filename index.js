@@ -11,8 +11,8 @@ client.on('ready', () => {
     console.log('Bot is ready!');
     console.log(`Loaded ${commandFiles.length} commands!`);
     client.user.setPresence({ activity: { name: 'бога!', type: 'PLAYING' }, status: 'online' }); // Bot Rich Presence options
-    let db = new sqlite.Database('./db.db', sqlite.OPEN_READWRITE | sqlite.OPEN_CREATE);
-    db.run(`CREATE TABLE IF NOT EXISTS data (
+    let db = new sqlite.Database('./database.db', sqlite.OPEN_READWRITE | sqlite.OPEN_CREATE);
+    db.run(`CREATE TABLE IF NOT EXISTS users (
         userid INTEGER NOT NULL,
         username TEXT NOT NULL,
         xp INTEGER NOT NULL,
@@ -26,26 +26,40 @@ client.on(`message`, (message) => {
     let userid = message.author.id;
     let username = message.author.tag;
     if (message.author.bot) return;
-    let db = new sqlite.Database('./db.db', sqlite.OPEN_READWRITE);
+    let db = new sqlite.Database('./database.db', sqlite.OPEN_READWRITE);
 
-        let query = `SELECT * FROM data WHERE userid = ?`;
-        db.get(query, [userid], (err, row) => {
-            if (err) {
-                console.log(err);
-                return;
-            }
-            if (row === undefined) {
-                let insertdata = db.prepare(`INSERT INTO data VALUES(?,?,?,?)`);
-                insertdata.run(userid, username, "0", "0");
-                insertdata.finalize();
-                db.close();
-                return;
-            }
-        });
+    let query = `SELECT * FROM users WHERE userid = ?`;
+    db.get(query, [userid], (err, row) => {
+        if (err) {
+            console.log(err);
+            return;
+        }
+        if (row === undefined) {
+            let insertdata = db.prepare(`INSERT INTO users VALUES(?,?,?,?)`);
+            insertdata.run(userid, username, "0", "0");
+            insertdata.finalize();
+            db.close();
+            return;
+        }
+    });
     //console.log(`${message.author.tag} in #${message.channel.name} sent: ${message.content}`);
 });
 
-});
+client.on('message', message => {
+    let db = new sqlite.Database('./database.db', sqlite.OPEN_READWRITE);
+    db.all(`SELECT * FROM users WHERE userid = ${message.author.id}`, [], (err, rows) => {
+        if (err) {
+            console.log(err);
+        }
+        var XP = rows[0].xp + 1;
+    });
+    db.run(`UPDATE users SET xp = ${XP} WHERE userid = ${message.author.id}`), function (err) {
+        if (err) {
+            console.log(err);
+        }
+    }
+    db.close();
+})
 
 for (const file of commandFiles) {
     const command = require(`./commands/${file}`);
@@ -62,7 +76,7 @@ client.on('message', message => {
     try {
         client.commands.get(command).execute(message, args);
     } catch {
-        message.reply('Здесь возникла проблема с командой, напишите разработчику о проблеме!');
+        message.reply('Здесь возникла проблема с командой!');
     }
 
 });
