@@ -25,6 +25,7 @@ module.exports = {
             message.channel.send(
               `Пользователь <@${memberTarget.user.id}> был заглушён пользователем <@${message.author.id}>`
             );
+            console.log(`${message.author.tag} muted a ${target.tag}!`);
             return;
           }
 
@@ -35,6 +36,7 @@ module.exports = {
               ms(args[1])
             )}!`
           );
+          console.log(`${message.author.tag} muted a ${target.tag} for ${ms(ms(args[1]))}`);
 
           setTimeout(function () {
             memberTarget.roles.remove(muteRole.id);

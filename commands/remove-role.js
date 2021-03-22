@@ -31,6 +31,7 @@ module.exports = {
                     const member = guild.members.cache.get(targetUser.id);
                     member.roles.remove(role);
                     message.channel.send(`Пользователь <@${message.author.id}> забрал роль "${roleName}" у пользователя <@${targetUser.id}>!`);
+                    console.log(`${message.author.tag} takes role '${roleName}' to the ${targetUser.id}!`);
                 }
             } else {
                 message.channel.send(`<@message.author.id>, у вас не хватает прав!`);

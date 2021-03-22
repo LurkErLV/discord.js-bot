@@ -5,82 +5,19 @@ client.commands = new Discord.Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 const prefix = '!';
 const sqlite = require('sqlite3').verbose();
+const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
 
-client.on('ready', () => {
-    console.log('Bot is ready!');
-    console.log(`Loaded ${commandFiles.length} commands!`);
-    client.user.setPresence({ activity: { name: 'бога!', type: 'PLAYING' }, status: 'online' }); // Bot Rich Presence options
-    let db = require('./utils/db.js');
-    db.run(`CREATE TABLE IF NOT EXISTS users (userid INTEGER NOT NULL, username TEXT NOT NULL, xp INTEGER NOT NULL, lvl INTEGER NOT NULL)`);
-    console.log('Database is connected!')
-});
+// EVENT HANDLER
+for (const file of eventFiles) {
+	const event = require(`./events/${file}`);
+	if (event.once) {
+		client.once(event.name, (...args) => event.execute(...args, client));
+	} else {
+		client.on(event.name, (...args) => event.execute(...args, client));
+	}
+}
 
-client.on(`message`, (message) => {
-    let db = new sqlite.Database('./database.db', sqlite.OPEN_READWRITE);
-    db.get(`SELECT * FROM users WHERE userid = ?`, [message.author.id], (err, row) => {
-        if (err) {
-            console.log(err);
-            return;
-        }
-            db.run(`UPDATE users SET xp = xp + 1.5 WHERE userid = ?`, [message.author.id]), function (err) {
-                if (err) {
-                    console.log(err);
-            }
-            if (row === undefined) {
-                let insertdata = db.prepare(`INSERT INTO users VALUES(?,?,?,?)`);
-                insertdata.run(message.author.id, message.author.tag, "0", "1");
-                insertdata.finalize();
-                db.close();
-            }
-        }
-    });
-})
-
-client.on(`message`, (message) => {
-    if (message.author.bot) return;
-    let db = new sqlite.Database('./database.db', sqlite.OPEN_READWRITE);
-    if (message.content.startsWith('!')) return;
-    if (message.author.bot) return;
-    let query = `SELECT * FROM users WHERE userid = ?`;
-    db.get(query, [message.author.id], (err, row) => {
-        if (err) {
-            console.log(err);
-            return;
-        }
-        if (row === undefined) {
-            let insertdata = db.prepare(`INSERT INTO users VALUES(?,?,?,?)`);
-            insertdata.run(message.author.id, message.author.tag, "0", "1");
-            insertdata.finalize();
-            db.close();
-            return;
-        }
-            db.run(`UPDATE users SET xp = xp + 1.5 WHERE userid = ?`, [message.author.id]), function (err) {
-                if (err) {
-                    console.log(err);
-            }
-        }
-    });
-});
-
-client.on(`message`, (message) => {
-    if (message.author.bot) return;
-    let db = new sqlite.Database('./database.db', sqlite.OPEN_READWRITE);
-    db.get(`SELECT * FROM users WHERE userid = ?`, [message.author.id], (err, row) => {
-        if (row !== undefined) {
-        const nxtLvl = 500 * (Math.pow(2, row.lvl) - 1);
-        if (row.xp >= nxtLvl) {
-            db.run(`UPDATE users SET lvl = lvl + 1 WHERE userid = ?`, [message.author.id]), function (err) {
-                console.log(err);
-            }
-            db.run(`UPDATE users SET xp = xp - ${nxtLvl} WHERE userid = ?`, [message.author.id]), function (err) {
-                console.log(err);
-            }
-            message.channel.send(`<@${message.author.id}>, вы повысили свой уровень до '${row.lvl + 1}'!`);
-        }
-        }
-    })
-});
-
+// COMMAND HANDLER
 for (const file of commandFiles) {
     const command = require(`./commands/${file}`);
     client.commands.set(command.name, command);

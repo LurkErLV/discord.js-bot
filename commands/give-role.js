@@ -31,6 +31,7 @@ module.exports = {
                     const member = guild.members.cache.get(targetUser.id);
                     member.roles.add(role);
                     message.channel.send(`Пользователь <@${message.author.id}> выдал роль "${roleName}" пользователю <@${targetUser.id}>!`);
+                    console.log(`${message.author.tag} gived role '${roleName}' to the ${targetUser.id}!`);
                 }
             } else {
                 message.channel.send(`<@${message.author.id}>, у вас не хватает прав!`);

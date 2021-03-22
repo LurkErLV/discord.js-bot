@@ -24,6 +24,7 @@ module.exports = {
                         .setTimestamp()
                         .setFooter(`Message author: ${message.author.username} • Server: ${message.guild.name}`);
                     message.channel.send(embed);
+                    console.log(`${message.author.tag} banned a ${target.tag}!`)
                 } else {
                     message.channel.send(`<@${message.author.id}>, укажите пользователя чтобы забанить!`)
                 }

@@ -17,27 +17,32 @@ module.exports = {
                     console.log(err);
                 }
                 message.channel.send(`У пользователя <@${target.id}> изменили уровень на '${stats[2]}'!`);
+                console.log(`${message.author.tag} changed the LVL to ${stats[2]} for the ${target.tag}!`);
             } else if (stats[1] === 'xp') {
                 db.run(`UPDATE users SET xp = ? WHERE userid = ?`, [stats[2], target.id]), function (err) {
                     console.log(err);
                 }
                 message.channel.send(`У пользователя <@${target.id}> изменили опыт на '${stats[2]}'!`);
+                console.log(`${message.author.tag} changed the XP to ${stats[2]} for the ${target.tag}!`);
             } else if (stats[1] === 'money') {
                 db.run(`UPDATE users SET money = ? WHERE userid = ?`, [stats[2], target.id]), function (err) {
                     console.log(err);
                 }
                 message.channel.send(`У пользователя <@${target.id}> изменили количество денег на '${stats[2]}'!`);
+                console.log(`${message.author.tag} changed the MONEY to ${stats[2]} for the ${target.tag}!`);
             } else if (stats[1] === 'admin') {
                 if (stats[2] === 'true') {
                     db.run(`UPDATE users SET admin = ? WHERE userid = ?`, [stats[2], target.id]), function (err) {
                         console.log(err);
                     }
                     message.channel.send(`Пользователю <@${target.id}> выдали права администратора!`);
+                    console.log(`${message.author.tag} changed ADMIN to ${stats[2]} for the ${target.tag}!`);
                 } else {
                     db.run(`UPDATE users SET admin = ? WHERE userid = ?`, [stats[2], target.id]), function (err) {
                         console.log(err);
                     }
                     message.channel.send(`У пользователя <@${target.id}> забрал права администратора!`);
+                    console.log(`${message.author.tag} changed the ADMIN to ${stats[2]} for the ${target.tag}!`);
                 }
             } else {
                 message.channel.send(`Неизвестный параметр '${stats[2]}'!`);

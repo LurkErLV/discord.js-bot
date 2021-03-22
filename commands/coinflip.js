@@ -1,4 +1,4 @@
-const { DiscordAPIError, MessageEmbed } = require("discord.js");
+const { DiscordAPIError, MessageEmbed, MessageReaction } = require("discord.js");
 
 module.exports = {
     name: "coinflip",
@@ -19,5 +19,8 @@ module.exports = {
             .setTimestamp();
 
             message.channel.send(embed)
+            .then(function (message) {
+                message.react("👍")
+              })
     }
 };

@@ -13,6 +13,7 @@ module.exports = {
         const target = message.mentions.users.first();
         if (target.id === message.author.id) {
           message.channel.send("Вы не можете снять заглушку с себя!");
+          console.log(`${message.author.tag} tried remove a mute from self!`);
         } else if (target) {
           let muteRole = message.guild.roles.cache.find(
             (role) => role.id === "815037254400475186"
@@ -24,6 +25,7 @@ module.exports = {
           message.channel.send(
             `У пользователья <@${memberTarget.user.id}> была снята заглушка пользователем <@${message.author.id}>!`
           );
+          console.log(`${message.author.tag} removed a mute for the ${target.tag}!`);
         } else {
           message.channel.send("Пользователь не найден!");
         }
