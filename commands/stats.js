@@ -10,13 +10,22 @@ module.exports = {
       if (err) {
         console.log(err);
       }
-      const nxtLvl = 500 * (Math.pow(2, rows[0].lvl) - 1);
-      const embed = new Discord.MessageEmbed()
+      if (rows[0].admin === 'true') {
+        var admin = 'Да';
+      } else {
+        var admin = 'Нет';
+      }
+        const nxtLvl = 150 * (Math.pow(2, rows[0].lvl) - 1);
+        const embed = new Discord.MessageEmbed()
         .setTitle(`Информация о ${message.author.username}`)
         .setTimestamp()
         .setColor('#fff')
         .setFooter(`Message author: ${message.author.username} • Server: ${message.guild.name}`)
         .addFields(
+          {
+            name: 'Администратор?',
+            value: admin,
+          },
           {
             name: 'Уровень',
             value: rows[0].lvl,
@@ -28,6 +37,10 @@ module.exports = {
           {
             name: 'Нужно для повышения',
             value: nxtLvl
+          },
+          {
+            name: 'Денег',
+            value: rows[0].money,
           }
         )
       message.channel.send(embed);

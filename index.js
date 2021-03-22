@@ -102,3 +102,5 @@ client.on('message', message => {
 });
 
 client.login('token');
+// BOT TOKEN
+client.login('ODE0NjY2MDU0Njg4NTcxNDcz.YDhK4w.JAQpMwCMIGwYsTJ4dWYXBq1P2m4');
